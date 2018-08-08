@@ -1,16 +1,20 @@
-<!doctype html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="{{asset_url_for('vendors.css')}}"/>  
-  <link rel="stylesheet" href="{{asset_url_for('eggs.css')}}"/>  
-</head>
-<body>
-  <div> 
-    lesson 06 eggs!!!
-  </div>
-  <br>
-  <script src="{{asset_url_for('vendors.js')}}"></script>
+{% extends "layout.html" %}
+
+{% block page_title %}
+  Flask Webpack Starter-Kit
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{{asset_url_for('eggs.css')}}"/> 
+{% endblock %}
+
+
+{% block content %}
+<div>
+  This is a eggs page :)
+</div>
+{% endblock %}
+
+{% block js %}
   <script src="{{asset_url_for('eggs.js')}}"></script>
-</body>
-</html>
+{% endblock %}
