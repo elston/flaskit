@@ -1,0 +1,25 @@
+# Compiled output
+__pycache__
+*.pyc
+*.pid
+
+# virtual enviroment and logs
+node_modules
+.env
+
+# logs files
+*.logs
+*.log
+*.lock
+
+
+# media, data and build
+media
+data
+build
+
+
+# security 
+*.pem
+certbot-auto.sh
+# security.sh ... uncoment in real project!!!!

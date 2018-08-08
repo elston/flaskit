@@ -1,0 +1,53 @@
+version: '3'
+
+volumes:
+  var_lib_postgresql_data:
+
+networks:
+  netmain:
+    driver: bridge
+
+
+services:
+
+  storage:
+    image: ${PROJECT}_storage
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    networks:
+      - netmain
+    volumes:
+      - var_lib_postgresql_data:/var/lib/postgresql/data
+
+  backer:
+    image: ${PROJECT}_backer
+    tty: true      
+    networks:
+      - netmain
+    depends_on:
+      - storage
+    environment:
+      - PROJECT=backer      
+      - PYTHONPATH=/backer
+      - WORKON_HOME=/backer/.env         
+      # ..
+      - FLASK_CONFIGURATION=development
+      - MIGRATION_MODE=true
+      # ..
+      - DB_SECRET_KEY=${BACKER_SECRET_KEY}
+      - DB_NAME=${BACKER_DB_NAME}
+      - DB_USER=${BACKER_DB_USER}
+      - DB_PASSWORD=${BACKER_DB_PASSWORD}
+      - DB_URL=storage        
+      # ..
+      - FLASK_APP=app.py
+      - FLASK_DEBUG=1
+
+    volumes:
+      - ../../images/backer/src:/backer
+      - ../../images/backer/migrate.sh:/usr/local/bin/migrate.sh
+    # ................
+    command: /usr/local/bin/migrate.sh
+

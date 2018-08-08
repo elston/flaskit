@@ -1,0 +1,5 @@
+# Everything needs in addition to the production requirements
+-r prod.txt
+
+# Debug
+ipdb

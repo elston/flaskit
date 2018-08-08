@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block page_title %}
+    
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='accounts/css/main.css')}}"/>
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='accounts/css/login.css')}}"/>  
+  <style type="text/css">
+    body {
+      /*background: rgba(0, 0, 0, 0.8);*/
+      background-color: rgba(51, 60, 77, 0.9);
+    }
+  </style>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-4 col-md-3">
+            <form id="loginForm" method="POST" action="" class="form-login" role="login">
+
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+              <div class="text-center">
+                <h1>Welcome to Pentagon</h1>
+              </div>              
+            
+              {{ form.username(placeholder="Username", 
+                class_="form-control", autofocus=True, required=True) }}
+
+              </br>
+              {{ form.password(placeholder="Password", 
+                class_="form-control", required=True) }}
+
+              </br>
+              <div class="text-center">
+                <span class="group-btn">     
+                  <button class="btn btn-primary" type="submit">Enter <i class="fa fa-sign-in"></i></button>
+                </span>
+              </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

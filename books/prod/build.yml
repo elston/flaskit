@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+
+
+  storage:
+    build:
+      context: ../../images/storage
+      dockerfile: Dockerfile      
+    network_mode: "host" 
+    volumes:
+      - var_lib_postgresql_data:/var/lib/postgresql/data
+
+
+  backer:
+      build:
+        context: ../../images/backer
+        dockerfile: Dockerfile
+      network_mode: "host"  
+      environment:
+        - PROJECT=backer
+        - WORKON_HOME=/tester/.env
+      volumes:
+        - ../../images/backer/src:/backer
+
+volumes:
+  var_lib_postgresql_data:
+  cert:    

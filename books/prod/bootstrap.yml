@@ -1,0 +1,29 @@
+version: '3'
+
+volumes:
+  var_lib_postgresql_data:
+
+services:
+
+  storage:
+      image: ${PROJECT}_storage
+      network_mode: "host"
+      environment:
+        - POSTGRES_USER=${ADMIN_POSTGRES_USER}
+        - POSTGRES_PASSWORD=${ADMIN_POSTGRES_PASSWORD}
+      volumes:
+        - var_lib_postgresql_data:/var/lib/postgresql/data
+        - ../../images/storage/bootstrap.sql:/docker-entrypoint-initdb.d/bootstrap.sql        
+
+
+  backer:
+      image: ${PROJECT}_backer
+      network_mode: "host" 
+      environment:
+        - PROJECT=backer
+        - WORKON_HOME=/backer/.env 
+      volumes:
+        - ../../images/backer/src:/backer
+        - ../../images/backer/bootstrap.sh:/usr/local/bin/bootstrap.sh
+        # ...
+        - ../../images/backer/requirements/prod.txt:/tmp/requirements.txt

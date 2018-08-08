@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+  storage:
+    build:
+      context: ../../images/storage
+      dockerfile: Dockerfile      
+    network_mode: "host" 
+
+  backer:
+    build:
+      context: ../../images/backer
+      dockerfile: Dockerfile      
+    network_mode: "host"

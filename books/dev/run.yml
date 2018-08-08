@@ -1,0 +1,74 @@
+version: '3'
+
+volumes:
+  var_lib_postgresql_data:
+
+networks:
+  netmain:
+    driver: bridge
+   
+services:
+
+  storage:
+    image: ${PROJECT}_storage
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    networks:
+      - netmain
+    volumes:
+      - var_lib_postgresql_data:/var/lib/postgresql/data
+
+
+  backer:
+    image: ${PROJECT}_backer
+    tty: true      
+    networks:
+      - netmain
+    depends_on:
+      - storage
+    environment:
+      - PROJECT=backer      
+      - PYTHONPATH=/backer
+      - WORKON_HOME=/backer/.env         
+      # ..
+      - FLASK_CONFIGURATION=development
+      # ..
+      - DB_SECRET_KEY=${BACKER_SECRET_KEY}
+      - DB_NAME=${BACKER_DB_NAME}
+      - DB_USER=${BACKER_DB_USER}
+      - DB_PASSWORD=${BACKER_DB_PASSWORD}
+      - DB_URL=storage        
+      # ..
+      - FLASK_APP=app.py
+      - FLASK_DEBUG=1
+      - FLASK_PORT=8000
+      - FLASK_HOST=0.0.0.0
+    volumes:
+      - ../../images/backer/src:/backer
+      - ../../images/backer/runserv.sh:/usr/local/bin/runserv.sh
+      - ../../images/fronter/src/build:/fronter/build
+    # ................
+    command: /bin/bash      
+
+  fronter:
+    image: node:10.8.0-alpine
+    tty: true    
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+      - "9229:9229"
+    networks:
+      - netmain
+    environment:
+      - PROJECT=fronter
+      - BROWSERSYNC_PORT=3000
+      - BROWSERSYNC_HOST=0.0.0.0
+    volumes:
+      - ../../images/fronter/src:/fronter
+      # - ../../images/fronter/runserv.sh:/usr/local/bin/runserv.sh
+    # ..............
+    command: /bin/sh      

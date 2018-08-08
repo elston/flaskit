@@ -1,0 +1,3 @@
+create database DB_NAME template DEFAULT;
+create user DB_USER with encrypted password 'DB_PASSWORD';
+grant all privileges on database DB_NAME to DB_USER;

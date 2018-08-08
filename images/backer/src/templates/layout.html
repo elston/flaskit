@@ -1,0 +1,77 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="{% block meta_description %}{% endblock %}">
+  <meta name="author" content="{% block meta_author %}{% endblock %}">
+
+  <title>
+    {% block page_title %}
+    {% endblock %}
+  </title>
+
+  <!-- Mobile viewport optimized: h5bp.com/viewport -->
+  <meta name="viewport" content="width=device-width">
+
+  <!-- favicon -->
+  <link rel="icon" type="image/ico" href="{{asset_url_for('favicon.ico')}}"/>  
+  <!-- End favicon -->  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{asset_url_for('vendors.css')}}"/>
+  <link rel="stylesheet" href="{{asset_url_for('lending.css')}}"/>    
+  <!-- End CSS -->
+
+  {% block css %}
+  {% endblock %}
+
+</head>
+<body class="{% block body_class %}{% endblock %}">
+{% block body %}
+
+  {% block navigation %}
+  {% endblock %}
+
+  {% block breadcrums %}
+  {% endblock %}  
+
+  <div class="{% block content_class %}container{% endblock content_class %}">
+
+    <div role="main">
+
+      {% block messages %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="row">
+            <div class="col-md-12">
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  <a class="close" title="Close" href="#" data-dismiss="alert">&times;</a>
+                  {{message}}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      {% endwith %}
+      {% endblock %}
+
+      {% block content %}
+      {% endblock %}
+
+    </div>
+
+  </div>
+
+
+  <!-- Script -->
+  <script src="{{asset_url_for('vendors.js')}}"></script>
+  <script src="{{asset_url_for('lending.js')}}"></script>  
+  <!-- End Script -->
+  {% block js %}
+  {% endblock %}
+
+{% endblock %}
+</body>
+</html>
+

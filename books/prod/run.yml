@@ -1,0 +1,101 @@
+version: '3'
+
+
+volumes:
+  var_lib_postgresql_data:
+  router_letsencrypt:
+  router_letsencrypt_data:
+
+
+networks:
+  netmain:
+    driver: bridge
+
+
+services:
+
+  router:
+    image: nginx:1.13.8-alpine
+    expose:
+      - "80"    
+      - "443"          
+    ports:
+      - "80:80"
+      - "443:443"        
+    networks:
+      - netmain    
+    depends_on:
+      - backer      
+    volumes:
+      - router_letsencrypt:/etc/letsencrypt
+      - router_letsencrypt_data:/router/letsencrypt
+    # .............................................      
+      - ../../images/router/${NGINX_CONF}.conf:/etc/nginx/conf.d/default.conf
+    # .............................................      
+      # - ../../images/crowdface/src:/crowdface      
+      # - ../../images/registrar/src:/registrar
+      - ../../images/backer/src:/backer
+    # .............................................
+      # - ../../images/router/test.html:/tmp/test.html
+    # restart: always
+    
+  storage:
+    image: ${PROJECT}_storage
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    networks:
+      - netmain
+    volumes:
+      - var_lib_postgresql_data:/var/lib/postgresql/data
+    # .............................................
+    # restart: always
+
+
+  backer:
+    image: ${PROJECT}_backer
+    # tty: true      
+    # expose:
+    #   - "8000"
+    networks:
+      - netmain   
+    depends_on:
+      - storage
+    environment:
+      - PROJECT=backer      
+      - PYTHONPATH=/backer      
+      - WORKON_HOME=/backer/.env         
+      # ...
+      - FLASK_CONFIGURATION=production
+      # ...
+      - DB_SECRET_KEY=${backer_SECRET_KEY}
+      - DB_NAME=${BACKER_DB_NAME}
+      - DB_USER=${BACKER_DB_USER}
+      - DB_PASSWORD=${BACKER_DB_PASSWORD}
+      - DB_URL=storage       
+      # ..
+      - FLASK_APP=app.py
+      # - FLASK_DEBUG=1
+    volumes:
+      - ../../images/backer/src:/backer
+      - ../../images/backer/rungunicorn.sh:/usr/local/bin/rungunicorn.sh
+
+    # .............................................        
+    # restart: always        
+    command: /usr/local/bin/rungunicorn.sh    
+
+
+  fronter:
+    image: node:9.11.1-alpine
+    tty: true    
+    networks:
+      - netmain
+    environment:
+      - PROJECT=fronter
+      - NODE_ENV=production
+    volumes:
+      - ../../images/fronter/src:/fronter
+      # - ../../images/fronter/runserv.sh:/usr/local/bin/runserv.sh
+    # ................
+    command: /bin/sh   
