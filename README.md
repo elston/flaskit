@@ -55,7 +55,7 @@ make db
 then test db
 
 ```
-psql -U mark -h localhost
+psql -U [user name] -h localhost
 ```
 
 if all OK, down db
@@ -67,7 +67,7 @@ make down
 then migrate db
 
 ```
-make migrate
+make migrate_backer
 ```
 
 
@@ -76,17 +76,17 @@ Helper commands
 
 ### To run any command inside the Docker container
 ```
-make shell_[and name of container]
+make shell_[name of container]
 ```
 
 
-### Clear untagged Docker containers
+### To view Docker images in current project
 
 ```
-make clear
+make images
 ```
 
-### To view runing Docker containers
+### To view runing Docker containers in current project
 
 ```
 make ps
