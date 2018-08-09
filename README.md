@@ -11,7 +11,7 @@ Technology
 - Python 3.5
 - Flask
 - Nodejs
-- Webpack
+- Webpack 4
 - Postgres 9.6
 - Nginx
 - Gunicorn
@@ -44,7 +44,7 @@ Frontend features
 * The possibility to run building scripts with debugging mode (see scripts in package.json - build:inspect). To make trace is need put command ``` debugging ``` in code and open google chrome browser tab in ```chrome://inspect``` (you can see the catched socket yours node js, in this project it on port 9229)
 * There is Browsersync configuration for developing with proxy that pass on backend(in this project, in inner docker network, it is ``` http://backer ``` ) all requests excluding static resources (js,css,images,fonts)
 * Most famous styles loaders (scss, less, stylus)
-* Webpack config with most famous features:
+* Webpack 4 config with most famous features:
     - multiple entry point
     - splitting output script for vendor chank and default chank
     - output resource name with hash

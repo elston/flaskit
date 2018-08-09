@@ -15,7 +15,7 @@ def login():
     if request.method == 'POST':
         if form.validate_on_submit():
             login_user(form.user)
-            redirect_url = request.args.get('next') or url_for('pentagon.index')
+            redirect_url = request.args.get('next') or url_for('admin.index')
             return redirect(redirect_url)
         else:
             flash_errors(form)
@@ -28,4 +28,4 @@ def login():
 def logout():
     logout_user()
     flash('You are logged out.', 'info')
-    return redirect(url_for('pentagon.index'))    
+    return redirect(url_for('admin.index'))    

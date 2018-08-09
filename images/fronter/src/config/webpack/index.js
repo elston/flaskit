@@ -104,7 +104,7 @@ config.optimization['splitChunks'] = {
 // ================================
 config['entry'] = {}
 
-// .. 0 context
+// ..
 config['context'] = ROOT_DIR
 
 // ...lending
