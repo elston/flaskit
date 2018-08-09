@@ -14,7 +14,7 @@ const pandaMenu = new Menu({
         text: 'Яйца',
         href: 'eggs'
     }, {
-        text: 'Мясо',
+        text: 'Мясоы',
         href: '#meat'
     }, {
         text: '99% еды - бамбук!',
