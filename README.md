@@ -202,7 +202,7 @@ docker logs [-f] [name of container getting from docker ps -a]
 In production servers
 =================================================================
 
-For compile frontend statics run command
+For compile frontend statics go in folder ``` books/prod ``` run command
 
 ```
 make compile_fronter
