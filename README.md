@@ -177,7 +177,7 @@ open in browser tab to url ```http://localhost:3000```
 
 
 
-Running testing and production servers (...not completed yet !!!)
+Running testing and production servers
 =================================================================
 
 
@@ -197,6 +197,15 @@ make down
 
 ```
 docker logs [-f] [name of container getting from docker ps -a]
+```
+
+In production servers
+=================================================================
+
+For compile frontend statics run command
+
+```
+make compile_fronter
 ```
 
 
