@@ -53,7 +53,7 @@ services:
     command: /bin/bash      
 
   fronter:
-    image: node:10.8.0-alpine
+    image: node:${NODE_TAG}
     tty: true    
     expose:
       - "3000"

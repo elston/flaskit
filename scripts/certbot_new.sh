@@ -1,6 +1,7 @@
 #!/bin/bash
-PROJECT='flaskit'
-
+# ..
+source ../books/global.sh
+# ..
 docker run -it --rm \
 -v ${PROJECT}_router_letsencrypt:/etc/letsencrypt \
 -v ${PROJECT}_router_letsencrypt_data:/router/letsencrypt \

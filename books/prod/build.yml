@@ -2,27 +2,21 @@ version: '3'
 
 services:
 
-
   storage:
     build:
       context: ../../images/storage
       dockerfile: Dockerfile      
     network_mode: "host" 
-    volumes:
-      - var_lib_postgresql_data:/var/lib/postgresql/data
-
+    environment:
+      - IMAGE_TAG=${POSTGRES_TAG}
+      - MAINTAINER_NAME=${MAINTAINER}
 
   backer:
-      build:
-        context: ../../images/backer
-        dockerfile: Dockerfile
-      network_mode: "host"  
-      environment:
-        - PROJECT=backer
-        - WORKON_HOME=/tester/.env
-      volumes:
-        - ../../images/backer/src:/backer
+    build:
+      context: ../../images/backer
+      dockerfile: Dockerfile      
+    network_mode: "host"  
+    environment:
+      - IMAGE_TAG=${PYTHON_TAG}
+      - MAINTAINER_NAME=${MAINTAINER}
 
-volumes:
-  var_lib_postgresql_data:
-  cert:    

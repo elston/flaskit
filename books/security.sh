@@ -1,5 +1,4 @@
 #!/bin/bash
-export PROJECT=flaskit
 # ..
 export ADMIN_POSTGRES_USER=donald
 export ADMIN_POSTGRES_PASSWORD=trump

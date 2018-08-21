@@ -1,0 +1,76 @@
+version: '3'
+
+
+volumes:
+  var_lib_postgresql_data:
+  backer_uploads:    
+
+
+networks:
+  netmain:
+    driver: bridge
+   
+
+services:
+
+  storage:
+    image: ${PROJECT}_storage
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    networks:
+      - netmain
+    volumes:
+      - var_lib_postgresql_data:/var/lib/postgresql/data
+
+
+  router:
+    image: nginx:${NGINX_TAG}
+    expose:
+      - "80"    
+      - "443"          
+    ports:
+      - "80:80"
+      - "443:443"        
+    networks:
+      - netmain    
+    depends_on:
+      - backer      
+    volumes:
+      - ../../images/router/simple.conf:/etc/nginx/conf.d/default.conf
+      - ../../images/fronter/src/build:/fronter/build
+
+
+  backer:
+      image: ${PROJECT}_backer
+      networks:
+        - netmain
+      depends_on:
+        - storage
+      environment:
+        - PROJECT=backer      
+        - PYTHONPATH=/backer
+        - WORKON_HOME=/backer/.env         
+        # ..
+        - FLASK_CONFIGURATION=production
+        - LOGIN_URL=http://localhost:8000
+        # - REGISTRATION_URL=http://localhost:8000/accounts/register
+        # ..
+        - DB_SECRET_KEY=${backer_SECRET_KEY}
+        - DB_NAME=${backer_DB_NAME}
+        - DB_USER=${backer_DB_USER}
+        - DB_PASSWORD=${backer_DB_PASSWORD}
+        - DB_URL=storage        
+        # ..
+        - FLASK_APP=app.py
+
+      volumes:
+        - backer_uploads:/uploads      
+        # ..sorces
+        - ../../images/backer/src:/backer
+        # ..webpack manifest path
+        - ../../images/fronter/src/build:/fronter/build
+        - ../../images/backer/rungunicorn_debug.sh:/usr/local/bin/rungunicorn_debug.sh
+      # .......................................
+      command: /usr/local/bin/rungunicorn_debug.sh

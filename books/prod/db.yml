@@ -1,5 +1,12 @@
 version: '3'
 
+volumes:
+  var_lib_postgresql_data:
+
+networks:
+  netmain:
+    driver: bridge
+
 services:
 
   storage:
@@ -14,11 +21,3 @@ services:
         - var_lib_postgresql_data:/var/lib/postgresql/data
       # .............................................
       restart: always
-
-volumes:
-  var_lib_postgresql_data:
-
-networks:
-  netmain:
-    driver: bridge
-   

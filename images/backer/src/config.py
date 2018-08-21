@@ -87,7 +87,7 @@ class BaseConfig(object):
 
     # ..
     MIGRATION_MODE = json.loads(
-        get_env_variable('MIGRATION_MODE', default = 'false'))
+        get_env_variable('MIGRATION_MODE', 'false'))
 
 class DevelopmentConfig(BaseConfig):
 

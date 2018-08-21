@@ -1,21 +1,27 @@
 Flask Webpack Starter Kit
-========================
+=========================
 
-Yet another boilerplate web  application 
+Yet another boilerplate for building web application 
 
 
 Technology
-----------------
+----------
 
-- Docker
-- Python 3.5
-- Flask
-- Nodejs
-- Webpack 4
-- Postgres 9.6
-- Nginx
-- Gunicorn
-- Virtualenv
+* Docker
+* Python 3.5
+* Flask
+* Nodejs
+* Webpack 4
+* Postgres 9.6
+* Nginx
+* Gunicorn
+* Virtualenv
+
+
+Applying
+--------
+
+This starter kit was used in developing [kubanoag.ru](https://www.kubanoag.ru/)
 
 
 Common features
@@ -38,7 +44,7 @@ Backend features
 
 
 Frontend features
-----------------
+-----------------
 
 * Nodejs with babel-node for use latest ECMAScript specifications to available still at the prepare stage for running webpack and(or) browsersync, that extremely conveniently
 * The possibility to run building scripts with debugging mode (see scripts in package.json - build:inspect). To make trace is need put command ``` debugging ``` in code and open google chrome browser tab in ```chrome://inspect``` (you can see the catched socket yours node js, in this project it on port 9229)
@@ -55,11 +61,11 @@ Frontend features
 
 
 Getting Started for Local Development
-====================================================================
+=====================================
 
 
 Installing and bootstraping
---------------------------------------------------------------------
+---------------------------
 
 ### Install Docker
 
@@ -109,7 +115,7 @@ make migrate_backer
 
 
 Helper commands
---------------------------------------------------------------------
+---------------
 
 ### To run any command inside the Docker container
 ```
@@ -130,7 +136,7 @@ make ps
 ```
 
 Running Local Development servers
-====================================================================
+=================================
 
 
 ### 1. Running backend (backer) server
@@ -141,15 +147,8 @@ Open terminal in flaskit/book/dev (where the `Makefile` file is located) and run
 make shell_backer
 ```
 
-after docker container is running, run backend server
 
-```
-runserver.sh
-```
-
-
-
-### 2. Running frontend (fronter) server
+### 2. Running frontend container
 
 Open another terminal tab  in flaskit/book/dev (where the `Makefile` file is located) and run command
 
@@ -157,24 +156,29 @@ Open another terminal tab  in flaskit/book/dev (where the `Makefile` file is loc
 make shell_fronter
 ```
 
+### 3. Running frontend (fronter) server
 
-after docker container is running, run fromner server
+after docker container is running, run fronter server, wich make manifest.json wich need to get path resources (js, css , images, fonts ...etc.) in templates on backend server
 
 ```
 cd /fronter
 yarn [name of commands from packege.json]
 ```
 
+### 4. Running backend (backer) server
 
+```
+runserver.sh
+```
 
-### 3. Running browser
+### 5. Running browser
 
 open in browser tab to url ```http://localhost:3000```
 
 
 
-Getting Started with testing or production (...not completed yet !!!)
-====================================================================
+Running testing and production servers (...not completed yet !!!)
+=================================================================
 
 
 ### This will start the containers in the background.
@@ -197,7 +201,8 @@ docker logs [-f] [name of container getting from docker ps -a]
 
 
 Acknowledgment
-====================================================================
+==============
+
 * kriasoft - [react-starter-kit](https://github.com/kriasoft/react-starter-kit)
 * Cory House - [react-slingshot](https://github.com/coryhouse/react-slingshot)
 * Steven Loria - [cookiecutter-flask](https://github.com/sloria/cookiecutter-flask)

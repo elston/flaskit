@@ -1,5 +1,5 @@
-FROM postgres:9.6
-MAINTAINER Den Elston "elstton@yahoo.com"
+FROM postgres:${IMAGE_TAG}
+MAINTAINER ${MAINTAINER_NAME}
 
 # ...
 RUN localedef -i ru_RU -c -f UTF-8 -A /usr/share/locale/locale.alias ru_RU.UTF-8

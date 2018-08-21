@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+  fronter:
+    image: node:${NODE_TAG}
+    tty: true
+    network_mode: "host"
+    environment:
+      - PROJECT=fronter
+    volumes:
+      - ../../images/fronter/src:/fronter
+      - ../../images/fronter/compile.sh:/usr/local/bin/compile.sh
+    # ................................
+    command: /usr/local/bin/compile.sh

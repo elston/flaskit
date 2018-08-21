@@ -19,7 +19,17 @@ export default {
             name: '[name].[ext]'
             // name: '[hash:8].[ext]'            
             // limit: 4096, // 4kb
-        },        
+        },    
+    },{
+        test: /\.jpg$/,
+        loader: 'file-loader',
+        options: {
+            name: '[1]',
+            regExp: /src\/(.+)/,
+            // name (fullname){
+            //     return /src\/(.+)/.exec(fullname)[1]
+            // }
+        },
     }] 
 }
 

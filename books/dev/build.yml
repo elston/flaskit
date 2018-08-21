@@ -6,10 +6,16 @@ services:
     build:
       context: ../../images/storage
       dockerfile: Dockerfile      
-    network_mode: "host" 
+    network_mode: "host"
+    environment:
+      - IMAGE_TAG=${POSTGRES_TAG}
+      - MAINTAINER_NAME=${MAINTAINER}
 
   backer:
     build:
       context: ../../images/backer
       dockerfile: Dockerfile      
     network_mode: "host"
+    environment:
+      - IMAGE_TAG=${PYTHON_TAG}
+      - MAINTAINER_NAME=${MAINTAINER}

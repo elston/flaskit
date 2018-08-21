@@ -1,36 +1,36 @@
-export PROJECT = flaskit
-# export REQNAME = prod
-# export NGINX_CONF = simple
-export NGINX_CONF = ssl
-export FLASK_CONFIGURATION = base
+include ../global.sh
+include ../security.sh
 
-
-include ../../security.sh
 
 all:
 	@echo "Hello $(LOGNAME), nothing to do by default"
 
+
 # ========= pull ==============
+
+
 .PHONY: pull_postgres
 pull_postgres:
-	@echo "---> pull postgres:9.6"
-	@docker pull postgres:9.6
+	@echo "---> pull postgres ${POSTGRES_TAG}"
+	@docker pull postgres:${POSTGRES_TAG}
+
 
 .PHONY: pull_python
 pull_python:
-	@echo "---> pull python:3.6-slim-jessie"
-	@docker pull python:3.6-slim-jessie
+	@echo "---> pull python ${PYTHON_TAG}"
+	@docker pull python:${PYTHON_TAG}
 
 
 .PHONY: pull_nginx
 pull_nginx:
-	@echo "---> pull nginx:1.13.8-alpine"	
-	@docker pull nginx:1.13.8-alpine	
+	@echo "---> pull nginx ${NGINX_TAG}"
+	@docker pull nginx:${NGINX_TAG}
 
-.PHONY: pull_certbot
-pull_certbot:
-	@echo "---> pull certbot/certbot"
-	@docker pull certbot/certbot
+
+.PHONY: pull_node
+pull_node:
+	@echo "---> pull node ${NODE_TAG}"
+	@docker pull node:${NODE_TAG}
 
 
 .PHONY: pull_all
@@ -38,10 +38,13 @@ pull_all:
 	@make pull_postgres
 	@make pull_python
 	@make pull_nginx
+	@make pull_node
 
 
 
 # =========== build ================
+
+
 .PHONY: build_storage
 build_storage:
 	@echo "---> build storage"	
@@ -63,12 +66,12 @@ build_backer:
 .PHONY: build_all
 build_all:
 	@make build_storage
-	# @make build_registrar
-	# @make build_crowdface
-	@make build_backer		
+	@make build_backer	
 
 
 # ========= bootstrap ==============
+
+
 .PHONY: bootstrap_storage
 bootstrap_storage:
 	@echo "---> bootstrap storage"	
@@ -76,6 +79,7 @@ bootstrap_storage:
 		-p $(PROJECT) \
 		-f bootstrap.yml \
 		run --rm storage
+
 
 .PHONY: bootstrap_backer
 bootstrap_backer:
@@ -87,6 +91,17 @@ bootstrap_backer:
 	@echo "---> end session backer"
 	@make down	
 
+
+.PHONY: bootstrap_fronter
+bootstrap_fronter:
+	@echo "---> bootstrap fronter"
+	@docker-compose \
+		-p $(PROJECT) \
+		-f bootstrap.yml \
+		run --rm fronter /usr/local/bin/bootstrap.sh
+	@echo "---> end bootstrap fronter"
+
+
 .PHONY: bootstrap_all
 bootstrap_all:
 	@make bootstrap_storage
@@ -95,6 +110,8 @@ bootstrap_all:
 
 
 # =========== db =======================
+
+
 .PHONY: db
 db:
 	@docker-compose \
@@ -102,7 +119,35 @@ db:
 		-f db.yml \
 		up -d --no-build --no-recreate
 
+
+# ==========  migrate =================
+
+
+.PHONY: migrate_backer
+migrate_backer:
+	@docker-compose \
+		-p $(PROJECT) \
+		-f migrate.yml \
+		run --rm backer /usr/local/bin/migrate.sh
+	@echo "---> end session backer"
+	@make down
+
+
+# ==========  compile =================
+
+.PHONY: compile_fronter
+compile_fronter:
+	@make down
+	@echo "---> begin compile fronter"	
+	@docker-compose \
+		-p $(PROJECT) \
+		-f compile.yml \
+		run --rm fronter /usr/local/bin/compile.sh
+	@echo "---> end session fronter"
+	@make down
+
 # =========== shell ======================
+
 
 .PHONY: shell_router
 shell_router:
@@ -127,17 +172,6 @@ shell_backer:
 		/bin/bash	
 
 # ============ restart ======================
-# restart_registrar:
-# 	@docker-compose \
-# 		-p $(PROJECT) \
-# 		-f run.yml \
-# 		restart -t 0 registrar
-
-# restart_crowdface:
-# 	@docker-compose \
-# 		-p $(PROJECT) \
-# 		-f run.yml \
-# 		restart -t 0 crowdface
 
 .PHONY: restart_backer
 restart_backer:

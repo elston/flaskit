@@ -1,5 +1,5 @@
-include ../../security.sh
-export FLASK_CONFIGURATION = development
+include ../global.sh
+include ../security.sh
 
 
 .PHONY: all
@@ -12,26 +12,26 @@ all:
 
 .PHONY: pull_postgres
 pull_postgres:
-	@echo "---> pull postgres"
-	@docker pull postgres:9.6
+	@echo "---> pull postgres ${POSTGRES_TAG}"
+	@docker pull postgres:${POSTGRES_TAG}
 
 
 .PHONY: pull_python
 pull_python:
-	@echo "---> pull python"
-	@docker pull python:3.6-slim-jessie
+	@echo "---> pull python ${PYTHON_TAG}"
+	@docker pull python:${PYTHON_TAG}
 
 
 .PHONY: pull_node
 pull_node:
-	@echo "---> pull node"
-	@docker pull node:10.8.0-alpine
+	@echo "---> pull nginx ${NGINX_TAG}"
+	@docker pull nginx:${NGINX_TAG}
 
 
 .PHONY: pull_nginx
 pull_nginx:
-	@echo "---> pull nginx"	
-	@docker pull nginx:1.13.8-alpine	
+	@echo "---> pull node ${NODE_TAG}"
+	@docker pull node:${NODE_TAG}
 
 
 .PHONY: pull_all

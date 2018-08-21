@@ -16,18 +16,16 @@ export default {
     rules: [{
         loader: MiniCssExtractPlugin.loader,
     },{
-        exclude: SRC_DIR,
         loader: 'css-loader',
         options: {
-            sourceMap: DEBUG,
-            minimize: DEBUG 
-                ? false 
-                : minimizeCssOptions,
-        },
-    },{
-        include: SRC_DIR,
-        loader: 'css-loader',
-        options: {
+            /*
+            * https://github.com/webpack-contrib/css-loader#importloaders
+            * 0 => no loaders (default); 
+            * 1 => postcss-loader; 
+            * 2 => postcss-loader, sass-loader
+            */
+            // importLoaders: 1,            
+            // ..
             sourceMap: DEBUG,
             minimize: DEBUG 
                 ? false 

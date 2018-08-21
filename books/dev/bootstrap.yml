@@ -39,7 +39,7 @@ services:
       command: /usr/local/bin/bootstrap.sh        
 
   fronter:
-      image: node:10.8.0-alpine
+      image: node:${NODE_TAG}
       network_mode: "host" 
       environment:
         - PROJECT=fronter

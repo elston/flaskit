@@ -1,5 +1,5 @@
-FROM python:3.6-slim-jessie
-MAINTAINER Den Elston "elstton@yahoo.com"
+FROM python:${IMAGE_TAG}
+MAINTAINER ${MAINTAINER_NAME}
 
 # ...
 RUN apt-get update && apt-get install -y --no-install-recommends locales
